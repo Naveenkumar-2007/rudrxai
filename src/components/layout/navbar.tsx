@@ -1,0 +1,119 @@
+"use client"
+
+import * as React from "react"
+import Link from "next/link"
+import { cn } from "@/lib/utils"
+import { Container } from "./container"
+import { Logo } from "@/components/ui/logo"
+import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { Menu, X } from "lucide-react"
+
+const navLinks = [
+  { href: "/products", label: "Products" },
+  { href: "/solutions", label: "Solutions" },
+  { href: "/industries", label: "Industries" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/engagement", label: "Engagement" },
+]
+
+export function Navbar() {
+  const [isScrolled, setIsScrolled] = React.useState(false)
+  const [isMobileOpen, setIsMobileOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  // Close mobile menu on route change
+  React.useEffect(() => {
+    if (isMobileOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => { document.body.style.overflow = "" }
+  }, [isMobileOpen])
+
+  return (
+    <>
+      <header
+        className={cn(
+          "fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent",
+          isScrolled
+            ? "bg-background/80 backdrop-blur-md border-border shadow-sm"
+            : "bg-transparent"
+        )}
+      >
+        <Container>
+          <div className="flex items-center justify-between h-20">
+            <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-90">
+              <Logo />
+            </Link>
+            
+            {/* Desktop Nav */}
+            <nav className="hidden lg:flex items-center gap-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+            
+            {/* Desktop Actions */}
+            <div className="hidden lg:flex items-center gap-3">
+              <ThemeToggle />
+              <Link href="/discovery">
+                <Button>Book Discovery</Button>
+              </Link>
+            </div>
+
+            {/* Mobile Toggle */}
+            <div className="flex lg:hidden items-center gap-3">
+              <ThemeToggle />
+              <button
+                onClick={() => setIsMobileOpen(!isMobileOpen)}
+                className="p-2 text-foreground"
+                aria-label="Toggle menu"
+              >
+                {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+          </div>
+        </Container>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileOpen && (
+        <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-lg pt-24 lg:hidden">
+          <Container>
+            <nav className="flex flex-col gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMobileOpen(false)}
+                  className="text-lg font-medium text-foreground py-3 px-4 rounded-lg hover:bg-muted transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <div className="border-t border-border my-4" />
+              <Link href="/discovery" onClick={() => setIsMobileOpen(false)}>
+                <Button className="w-full mt-2" size="lg">Book Discovery</Button>
+              </Link>
+            </nav>
+          </Container>
+        </div>
+      )}
+    </>
+  )
+}

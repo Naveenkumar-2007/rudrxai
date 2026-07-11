@@ -1,0 +1,298 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Custom Fields for Kaelora AI
+  role          String    @default("guest") // guest, lead, client, sales, pm, developer, editor, admin, super_admin
+  company       String?
+  phone         String?
+  timeZone      String?   @default("UTC")
+  language      String?   @default("en")
+  theme         String?   @default("system")
+  
+  sessions      Session[]
+  accounts      Account[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id            String    @id @default(cuid())
+  userId        String
+  accountId     String
+  providerId    String
+  accessToken   String?
+  refreshToken  String?
+  accessTokenExpiresAt DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope         String?
+  password      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Invitation {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  role       String   @default("client")
+  token      String   @unique
+  expiresAt  DateTime
+  invitedBy  String
+  status     String   @default("pending") // pending, accepted, expired
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  details   String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+}
+
+// -----------------------------------------
+// CRM & Enterprise OS Models (Phase 10)
+// -----------------------------------------
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  industry  String?
+  website   String?
+  employees String?
+  country   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  leads     Lead[]
+  projects  Project[]
+  proposals Proposal[]
+  invoices  Invoice[]
+  tickets   SupportTicket[]
+}
+
+model Lead {
+  id          String   @id @default(cuid())
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id])
+  
+  contactName String
+  email       String
+  phone       String?
+  
+  stage       String   @default("New Lead") // New Lead, Qualified, Discovery, Proposal, Negotiation, Won, Lost
+  score       Int      @default(0)
+  budget      String?
+  timeline    String?
+  challenges  String?
+  notes       String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  conversations Conversation[]
+  meetings      Meeting[]
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id])
+  
+  name        String
+  status      String   @default("Planning") // Planning, Active, Paused, Completed
+  startDate   DateTime?
+  endDate     DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tasks       Task[]
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  title       String
+  description String?
+  status      String   @default("Todo") // Todo, In Progress, In Review, Done
+  priority    String   @default("Medium") // Low, Medium, High, Urgent
+  
+  assignedTo  String?  // Could be a relation to User in future
+  dueDate     DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// -----------------------------------------
+// Sprint 2: Proposals, Invoices & Support
+// -----------------------------------------
+
+model Proposal {
+  id          String   @id @default(cuid())
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id])
+  
+  title       String
+  value       Float
+  status      String   @default("Draft") // Draft, Sent, Viewed, Accepted, Rejected
+  sentDate    DateTime?
+  validUntil  DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Invoice {
+  id          String   @id @default(cuid())
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id])
+  
+  invoiceId   String   @unique // e.g. INV-2024-001
+  amount      Float
+  status      String   @default("Pending") // Pending, Paid, Overdue, Cancelled
+  issueDate   DateTime @default(now())
+  dueDate     DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SupportTicket {
+  id          String   @id @default(cuid())
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id])
+  
+  subject     String
+  description String
+  status      String   @default("Open") // Open, In Progress, Waiting on Customer, Resolved, Closed
+  priority    String   @default("Normal") // Low, Normal, High, Urgent
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// -----------------------------------------
+// Form Submissions (Live Forms)
+// -----------------------------------------
+
+model ContactSubmission {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  company     String?
+  phone       String?
+  service     String?
+  message     String
+  source      String   @default("contact") // contact, pricing, footer
+  status      String   @default("New") // New, Contacted, Qualified, Closed
+  createdAt   DateTime @default(now())
+}
+
+model DiscoverySubmission {
+  id              String   @id @default(cuid())
+  fullName        String
+  email           String
+  company         String
+  role            String?
+  industry        String?
+  companySize     String?
+  budget          String?
+  timeline        String?
+  challenges      String?
+  currentStack    String?
+  aiExperience    String?
+  preferredDate   String?
+  preferredTime   String?
+  status          String   @default("New") // New, Scheduled, Completed, No-Show
+  createdAt       DateTime @default(now())
+}
+
+// -----------------------------------------
+// AI Concierge Orchestration Models
+// -----------------------------------------
+
+model Conversation {
+  id          String    @id @default(cuid())
+  sessionId   String?   
+  userId      String?   
+  leadId      String?   
+  status      String    @default("Active") // Active, Archived, Converted
+  summary     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  messages    Message[]
+  meetings    Meeting[]
+  lead        Lead?     @relation(fields: [leadId], references: [id])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  role           String       // "user", "assistant", "system"
+  content        String
+  intent         String?
+  agentName      String?      // Which specialized agent handled this
+  createdAt      DateTime     @default(now())
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
+
+model Meeting {
+  id             String       @id @default(cuid())
+  conversationId String?
+  leadId         String?
+  title          String
+  startTime      DateTime
+  endTime        DateTime
+  status         String       @default("Scheduled") // Scheduled, Cancelled, Completed
+  createdAt      DateTime     @default(now())
+
+  conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  lead           Lead?         @relation(fields: [leadId], references: [id])
+}
+
