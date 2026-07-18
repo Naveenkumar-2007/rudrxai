@@ -14,16 +14,14 @@ const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-// Using Outfit as a placeholder for Clash Display.
-// You can replace this with next/font/local once you add the Clash Display font files to public/fonts
 const headingFont = Outfit({
   variable: "--font-heading",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Rudrx AI | Engineering Intelligent Systems",
-  description: "Build enterprise-grade AI products, AI agents, automation platforms, and intelligent software for businesses and governments.",
+  title: "RudrxAI | Websites, AI Chatbots, Dashboards & Voice Agents",
+  description: "RudrxAI builds production-grade websites, AI chatbots, dashboards, voice agents, and custom business platforms. Affordable. Fast. Reliable.",
 };
 
 export default function RootLayout({

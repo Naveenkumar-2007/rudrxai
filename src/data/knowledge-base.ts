@@ -11,8 +11,8 @@ export const knowledgeBase: KnowledgeEntry[] = [
   {
     id: "company-overview",
     category: "company",
-    title: "About Rudrx AI",
-    content: "Rudrx AI is an enterprise AI company that builds intelligent systems, AI agents, automation platforms, and software for businesses and governments. We specialize in production-grade AI solutions including multi-agent orchestration, voice AI, RAG knowledge systems, document intelligence, and AI strategy consulting. We serve Fortune 500 companies, governments, healthcare providers, financial institutions, and innovative startups.",
+    title: "About RudrxAI",
+    content: "RudrxAI is an enterprise AI company that builds intelligent systems, AI agents, automation platforms, and software for businesses and governments. We specialize in production-grade AI solutions including multi-agent orchestration, voice AI, RAG knowledge systems, document intelligence, and AI strategy consulting. We serve Fortune 500 companies, governments, healthcare providers, financial institutions, and innovative startups.",
     keywords: ["rudrx", "about", "company", "who", "what do you do", "overview"]
   },
   {
@@ -102,21 +102,21 @@ export const knowledgeBase: KnowledgeEntry[] = [
     id: "pricing-overview",
     category: "pricing",
     title: "Pricing Overview",
-    content: "Rudrx AI offers three pricing tiers: Starter ($15K–$50K) for MVPs and pilot projects with 4-8 week delivery; Growth ($50K–$200K) for production-grade AI systems with multi-agent architectures and enterprise integrations; and Enterprise (custom pricing) for full AI transformation programs with dedicated teams, on-premise deployment, and SLA-backed guarantees. All projects are fixed-price with guaranteed timelines. Book a discovery call for a custom proposal.",
+    content: "RudrxAI offers affordable fixed-price solutions: Business Websites from ₹3,999–₹9,999, AI Chatbots from ₹4,999–₹19,999, AI Dashboards from ₹2,999–₹9,999, Voice AI Agents from ₹5,999–₹29,000, and Custom Platforms at custom quote. All projects include design, development, testing, deployment, and 30 days support. Contact us for a free quote.",
     keywords: ["pricing", "cost", "price", "how much", "budget", "tier", "plan", "starter", "growth", "enterprise"]
   },
   {
     id: "pricing-starter",
     category: "pricing",
     title: "Starter Tier",
-    content: "The Starter tier ($15K–$50K) includes: AI Agent or Chatbot MVP, RAG-powered Knowledge Base, Custom LLM Integration, API Development, 4-8 Week Delivery, 30 Days Post-Launch Support, and a Dedicated Project Manager. Ideal for validating AI use cases.",
+    content: "The Starter plan (from ₹3,999) includes: Business Website, Mobile Responsive Design, SEO Optimization, Contact Form, Hosting Setup, and 30 Days Post-Launch Support. Ideal for small businesses and personal brands.",
     keywords: ["starter", "mvp", "pilot", "small project", "proof of concept"]
   },
   {
     id: "pricing-growth",
     category: "pricing",
     title: "Growth Tier",
-    content: "The Growth tier ($50K–$200K) includes everything in Starter plus: Multi-Agent Orchestration, Voice AI & NLP Pipelines, Document Intelligence, Enterprise SSO & RBAC, CI/CD Pipeline, Performance Monitoring, 3 Months Support, and a Dedicated Engineering Team.",
+    content: "The Growth plan (from ₹9,999) includes everything in Starter plus: AI Chatbot, Dashboard, CRM Integration, Analytics, and Priority Support. Ideal for growing businesses and SMEs.",
     keywords: ["growth", "production", "scale", "enterprise system"]
   },
 
@@ -148,7 +148,7 @@ export const knowledgeBase: KnowledgeEntry[] = [
     id: "engagement-discovery",
     category: "engagement",
     title: "Discovery Workshop",
-    content: "Our Discovery Workshop is a complimentary 30-minute session where our AI consultants analyze your business challenges, identify high-impact AI use cases, and present a preliminary architecture recommendation. No commitment required. Book at rudrx.ai/discovery.",
+    content: "Our Discovery Workshop is a complimentary 30-minute session where our AI consultants analyze your business challenges, identify high-impact AI use cases, and present a preliminary architecture recommendation. No commitment required. Book at rudrovalabs.com/discovery.",
     keywords: ["discovery", "workshop", "meeting", "call", "consultation", "book", "schedule", "appointment"]
   },
   {
@@ -164,7 +164,7 @@ export const knowledgeBase: KnowledgeEntry[] = [
     id: "trust-security",
     category: "trust",
     title: "Security & Compliance",
-    content: "Rudrx AI maintains enterprise-grade security: SOC2 Type II compliant, HIPAA compliant, GDPR compliant, ISO 27001 certified. All data is encrypted at rest and in transit. We support on-premise deployment, private cloud, and air-gapped environments. Regular penetration testing and security audits.",
+    content: "RudrxAI maintains enterprise-grade security: SOC2 Type II compliant, HIPAA compliant, GDPR compliant, ISO 27001 certified. All data is encrypted at rest and in transit. We support on-premise deployment, private cloud, and air-gapped environments. Regular penetration testing and security audits.",
     keywords: ["security", "compliance", "soc2", "hipaa", "gdpr", "encryption", "privacy", "data protection"]
   },
 
@@ -173,7 +173,7 @@ export const knowledgeBase: KnowledgeEntry[] = [
     id: "contact-info",
     category: "contact",
     title: "Contact Information",
-    content: "You can reach Rudrx AI at: Email: hello@rudrx.ai | Phone: +1 (555) 123-4567 | Office: San Francisco, CA. For sales inquiries, visit rudrx.ai/contact. To book a discovery call, visit rudrx.ai/discovery. We respond to all inquiries within 24 hours.",
+    content: "You can reach RudrxAI at: Email: rudrovalabs@gmail.com | Phone: +91 7989317347 | Office: Remote — Global. For inquiries, visit our contact page. We respond within 24 hours.",
     keywords: ["contact", "email", "phone", "address", "reach", "talk to", "get in touch"]
   },
 ]

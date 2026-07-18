@@ -1,5 +1,3 @@
-import { prisma } from "@/lib/db"
-import { sendEmail, ADMIN_EMAIL, discoveryNotificationEmail } from "@/lib/email"
 import { NextResponse } from "next/server"
 
 export const dynamic = "force-dynamic"
@@ -21,36 +19,47 @@ export async function POST(request: Request) {
       )
     }
 
-    // Save to database
-    const submission = await prisma.discoverySubmission.create({
-      data: {
-        fullName,
+    // Web3Forms Integration
+    const web3Key = process.env.WEB3FORMS_ACCESS_KEY
+    if (!web3Key || web3Key === "your-web3forms-access-key") {
+      console.warn("WEB3FORMS_ACCESS_KEY is not configured in .env")
+      return NextResponse.json({ success: true, note: "Web3Forms key not configured yet" })
+    }
+
+    const web3Response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        access_key: web3Key.trim(),
+        name: fullName,
         email,
         company,
-        role: role || null,
-        industry: industry || null,
-        companySize: companySize || null,
-        budget: budget || null,
-        timeline: timeline || null,
-        challenges: challenges || null,
-        currentStack: currentStack || null,
-        aiExperience: aiExperience || null,
-        preferredDate: preferredDate || null,
-        preferredTime: preferredTime || null,
-      },
+        role: role || "N/A",
+        industry: industry || "N/A",
+        company_size: companySize || "N/A",
+        budget: budget || "N/A",
+        timeline: timeline || "N/A",
+        challenges: challenges || "N/A",
+        current_stack: currentStack || "N/A",
+        ai_experience: aiExperience || "N/A",
+        preferred_date: preferredDate || "N/A",
+        preferred_time: preferredTime || "N/A",
+        subject: `Discovery Call Request from ${fullName} — RudrxAI`,
+        from_name: "RudrxAI Discovery Form",
+      })
     })
 
-    // Send email notification
-    const emailTemplate = discoveryNotificationEmail({
-      fullName, email, company, role, industry, budget, timeline, challenges
-    })
-    await sendEmail({
-      to: ADMIN_EMAIL,
-      subject: emailTemplate.subject,
-      html: emailTemplate.html,
-    })
+    const web3Result = await web3Response.json()
 
-    return NextResponse.json({ success: true, id: submission.id })
+    if (!web3Result.success) {
+      console.error("Web3Forms discovery submission failed:", web3Result)
+      return NextResponse.json({ error: "Failed to send request. Please try again." }, { status: 500 })
+    }
+
+    return NextResponse.json({ success: true })
   } catch (error: unknown) {
     console.error("Discovery submission error:", error)
     const errorMessage = error instanceof Error ? error.message : "Internal server error"

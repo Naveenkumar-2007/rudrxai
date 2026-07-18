@@ -21,7 +21,7 @@ export const resourcesData: Resource[] = [
 
 Moving from a single LLM call to a system of autonomous agents introduces significant architectural complexity. In production, agents fail, hallucinate, get stuck in loops, and consume unbounded resources if not properly monitored.
 
-At Rudrx AI, we orchestrate multi-agent workflows using a custom event-driven architecture built on top of **Kubernetes** and **LangGraph**.
+At RudrxAI, we orchestrate multi-agent workflows using a custom event-driven architecture built on top of **Kubernetes** and **LangGraph**.
 
 ### The Core Architecture
 

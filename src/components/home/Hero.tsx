@@ -1,125 +1,165 @@
+"use client"
+
 import { Container } from "@/components/layout/container"
-import { FadeIn } from "@/components/effects/fade-in"
 import { Button } from "@/components/ui/button"
-import { HeroVisual } from "./HeroVisual"
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, ArrowUpRight, Monitor, Users, Activity, Clock, Layers } from "lucide-react"
+import { useEffect, useState, useRef, useCallback } from "react"
+
+/* ═══════════════════════════════════════════
+   HERO COMPONENT — Premium Agency Landing
+   ═══════════════════════════════════════════ */
 
 export function Hero() {
+  const [loaded, setLoaded] = useState(false)
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 })
+  const heroRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => { setLoaded(true) }, [])
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!heroRef.current) return
+    const rect = heroRef.current.getBoundingClientRect()
+    setMousePos({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    })
+  }, [])
+
   return (
-    <section className="relative min-h-[90vh] flex items-center pt-32 pb-20 overflow-hidden bg-background">
-      <Container className="relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          
-          {/* Left Content */}
-          <div className="max-w-2xl">
-            <FadeIn delay={0.1}>
-              <div className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium tracking-widest text-primary mb-8 uppercase">
-                <span className="mr-2">+</span>
-                AI Operating System for Enterprises
-              </div>
-            </FadeIn>
-            
-            <FadeIn delay={0.2}>
-              <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-bold tracking-tighter font-heading text-foreground leading-[1.1] mb-6">
-                Intelligence.<br />
-                Orchestrated.<br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                  Outcomes.
-                </span>
-              </h1>
-            </FadeIn>
-            
-            <FadeIn delay={0.3}>
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-xl">
-                Rudrx AI is the operating system for modern businesses. Our multi-agent intelligence layer automates operations, enhances decisions, and accelerates growth at scale.
-              </p>
-            </FadeIn>
-            
-            <FadeIn delay={0.4}>
-              <div className="flex flex-col sm:flex-row gap-4 mb-16">
-                <Button size="lg" asChild className="h-14 px-8 text-base bg-foreground hover:bg-foreground/90 text-background border-none rounded-lg">
-                  <Link href="/contact">
-                    Book Discovery Call
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild className="h-14 px-8 text-base bg-transparent border-border text-foreground hover:bg-surface rounded-lg">
-                  <Link href="/solutions">
-                    Explore Solutions
-                  </Link>
-                </Button>
-              </div>
-            </FadeIn>
-
-            {/* Bottom Stats */}
-            <FadeIn delay={0.5}>
-              <div className="flex flex-wrap gap-8 mb-12">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <svg className="w-5 h-5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    <p className="text-3xl font-bold text-foreground">500+</p>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Enterprise Clients</p>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <svg className="w-5 h-5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
-                    <p className="text-3xl font-bold text-foreground">99.9%</p>
-                  </div>
-                  <p className="text-sm text-muted-foreground">System Reliability</p>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <svg className="w-5 h-5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-                    </svg>
-                    <p className="text-3xl font-bold text-foreground">3.2M+</p>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Tasks Automated</p>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <svg className="w-5 h-5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                    </svg>
-                    <p className="text-3xl font-bold text-foreground">30+</p>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Countries Served</p>
-                </div>
-              </div>
-            </FadeIn>
-
-            {/* Trusted By */}
-            <FadeIn delay={0.6}>
-              <div>
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-4">Trusted by innovative startups</p>
-                <div className="flex flex-wrap items-center gap-6 opacity-60 grayscale">
-                   {/* Using text logos for placeholders */}
-                   <span className="font-bold text-xl tracking-tight">Lumina AI</span>
-                   <span className="font-bold text-xl font-serif italic">Nexa</span>
-                   <span className="font-bold text-lg tracking-widest">SYNTHETIX</span>
-                   <span className="font-bold text-xl">Orbit</span>
-                   <span className="font-bold text-xl text-teal-600">Elevate</span>
-                   <span className="font-bold text-lg font-mono">/dev/null</span>
-                </div>
-              </div>
-            </FadeIn>
-          </div>
-
-          {/* Right Visual */}
-          <div className="relative lg:h-[800px] flex items-center justify-center">
-            <FadeIn delay={0.5} direction="left" className="w-full h-full">
-              <HeroVisual />
-            </FadeIn>
-          </div>
-          
+    <>
+      {/* ═══════ SECTION 1: FULL-SCREEN HERO ═══════ */}
+      <section
+        ref={heroRef}
+        onMouseMove={handleMouseMove}
+        className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-background selection:bg-primary/30"
+      >
+        {/* ── Background ── */}
+        <div className="absolute inset-0 z-0">
+          {/* Video — zoomed out */}
+          <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover scale-[1.15] opacity-0 dark:opacity-45 z-0">
+            <source src="/landing_page_video.mp4" type="video/mp4" />
+          </video>
+          {/* Center aura to mask watermark */}
+          <div className="absolute inset-0 z-[1] dark:block hidden" style={{
+            background: 'radial-gradient(ellipse 50% 40% at 50% 50%, rgba(10,11,20,0.9) 0%, rgba(10,11,20,0.5) 30%, transparent 65%)'
+          }} />
+          {/* Dark overlay — subtle */}
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background z-[2] dark:block hidden" />
+          {/* Light mode subtle bg */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(124,58,237,0.04),transparent_70%)] dark:hidden z-[1]" />
+          {/* Interactive glow that follows mouse */}
+          <div
+            className="absolute w-[600px] h-[600px] rounded-full blur-[150px] opacity-[0.06] dark:opacity-[0.08] transition-all duration-[1500ms] ease-out z-[3] pointer-events-none bg-primary"
+            style={{ left: `${mousePos.x}%`, top: `${mousePos.y}%`, transform: 'translate(-50%, -50%)' }}
+          />
         </div>
-      </Container>
-    </section>
+
+        {/* ── Top spacer for navbar ── */}
+        <div className="pt-24 lg:pt-28" />
+
+        {/* ── Content — positioned left ── */}
+        <div className="relative z-10 flex-1 flex items-center">
+          <Container>
+            <div className="max-w-5xl pl-0 md:pl-2">
+              {/* Welcome line */}
+              <div className={`overflow-hidden mb-4 transition-all duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+                <p className="text-sm md:text-base font-medium tracking-[0.3em] uppercase text-primary animate-[slideUp_0.8s_ease-out_forwards]">
+                  Welcome to RudrxAI Agency
+                </p>
+              </div>
+
+              {/* Main headline — massive, editorial */}
+              <div className="overflow-hidden mb-8">
+                <h1 className={`text-[clamp(2.5rem,8vw,7rem)] font-bold font-heading leading-[0.95] tracking-[-0.04em] text-foreground transition-all duration-1000 ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
+                  We craft digital
+                  <br />
+                  <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#a78bfa] to-accent">
+                    experiences
+                  </span>{" "}
+                  that
+                  <br />
+                  move businesses
+                  <span className="text-primary">.</span>
+                </h1>
+              </div>
+
+              {/* Subtext + CTAs side by side */}
+              <div className={`mt-15 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 transition-all duration-1000 delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>                <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-md">
+                From websites and AI chatbots to voice agents and custom platforms — we build production-grade solutions, starting at just <span className="text-foreground font-semibold">₹3,999</span>.
+              </p>
+
+                <div className="flex gap-3 shrink-0">
+                  <Button size="lg" asChild className="h-14 px-8 text-sm font-semibold bg-primary hover:bg-primary/90 text-white rounded-full shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all hover:-translate-y-0.5">
+                    <Link href="/contact">
+                      Start a Project <ArrowRight className="ml-2 w-4 h-4" />
+                    </Link>
+                  </Button>
+                  <Button size="lg" variant="ghost" asChild className="h-14 px-6 text-sm font-semibold rounded-full hover:bg-foreground/5 transition-all">
+                    <Link href="/portfolio">
+                      Our Work <ArrowUpRight className="ml-1 w-4 h-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Container>
+        </div>
+
+        {/* ── Bottom: Scrolling Marquee ── */}
+        <div className={`relative z-10 border-t border-border/30 dark:border-white/5 py-5 overflow-hidden transition-all duration-1000 delay-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="flex animate-[marquee_25s_linear_infinite] whitespace-nowrap">
+            {[...Array(2)].map((_, setIdx) => (
+              <div key={setIdx} className="flex shrink-0">
+                {["Business Websites", "AI Chatbots", "Voice Agents", "AI Dashboards", "E-Commerce", "Healthcare Platforms", "Real Estate", "EdTech & LMS", "Custom Platforms"].map((s, i) => (
+                  <span key={`${setIdx}-${i}`} className="flex items-center mx-6 md:mx-10">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary mr-3 shrink-0" />
+                    <span className="text-xs md:text-sm font-medium text-muted-foreground tracking-wide uppercase">{s}</span>
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ SECTION 2: STATS + TRUST ═══════ */}
+      <section className="relative bg-muted/30 dark:bg-[#060609] border-y border-border/30 dark:border-white/5">
+        <Container>
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-0 divide-x divide-border/30 dark:divide-white/5">
+            {[
+              { icon: Monitor, val: "50+", label: "Projects" },
+              { icon: Users, val: "45+", label: "Clients" },
+              { icon: Activity, val: "99.9%", label: "Uptime" },
+              { icon: Layers, val: "10+", label: "Industries" },
+              { icon: Clock, val: "24/7", label: "Support" },
+            ].map((s) => {
+              const Icon = s.icon
+              return (
+                <div key={s.label} className="flex flex-col items-center py-10 group">
+                  <Icon className="w-5 h-5 text-primary/60 mb-3 group-hover:text-primary transition-colors" />
+                  <span className="text-2xl md:text-3xl font-bold text-foreground font-heading tracking-tight">{s.val}</span>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mt-1 font-medium">{s.label}</span>
+                </div>
+              )
+            })}
+          </div>
+        </Container>
+      </section>
+
+
+      {/* ═══════ ANIMATIONS ═══════ */}
+      <style jsx global>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes slideUp {
+          from { transform: translateY(100%); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+      `}</style>
+    </>
   )
 }

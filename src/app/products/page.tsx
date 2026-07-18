@@ -1,109 +1,136 @@
-import { products } from "@/data/products"
+"use client"
+
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Container } from "@/components/layout/container"
-import { SectionHeading } from "@/components/ui/section-heading"
+import { Section } from "@/components/layout/section"
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/effects/fade-in"
-import { ArrowRight, ExternalLink } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { ArrowRight, ArrowUpRight, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 
-export default function ProductsIndex() {
+import { products } from "@/data/products"
+
+export default function ProductsPage() {
   return (
     <>
       <Navbar />
       <main className="flex-1">
-        <section className="pt-40 pb-20 bg-background relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 blur-[150px] rounded-full pointer-events-none" />
+        {/* Hero */}
+        <Section className="pt-40 pb-20 bg-background relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-primary/5 blur-[150px] rounded-full pointer-events-none" />
           <Container>
             <FadeIn>
-              <SectionHeading 
-                badge="Portfolio"
-                title="AI Projects & Platforms"
-                subtitle="Explore real-world implementations of scalable AI models, RAG architectures, and predictive machine learning systems."
-              />
-              <div className="flex flex-wrap gap-4 mt-8">
-                <Link href="#featured" className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm h-11 px-8 py-2">
-                  View All Projects
-                </Link>
-                <Link href="/contact" className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-surface hover:text-foreground shadow-sm h-11 px-8 py-2">
-                  Request Custom Build
-                </Link>
+              <div className="max-w-3xl mb-16">
+                <span className="inline-flex items-center rounded-full border px-3 py-1 font-semibold text-xs uppercase tracking-wider text-primary border-primary/20 bg-primary/5 mb-6">
+                  Platforms
+                </span>
+                <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tight mb-6 text-foreground leading-[1.1]">
+                  AI Products & Platforms
+                </h1>
+                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                  Production-ready AI platforms built by our team. Each project is live, tested, and ready for enterprise customization.
+                </p>
               </div>
             </FadeIn>
-            
-            <div id="featured" className="mt-24">
-              <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {products.map((product) => (
-                  <StaggerItem key={product.id}>
-                    <div className="group block h-full bg-surface border border-border rounded-2xl transition-all hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/5 relative overflow-hidden flex flex-col">
+
+            {/* Products Grid */}
+            <div className="space-y-12">
+              {products.map((product, idx) => (
+                <FadeIn key={product.id} delay={0.1} direction={idx % 2 === 0 ? "left" : "right"}>
+                  <div className="flex flex-col lg:flex-row gap-8 items-center bg-card border border-border rounded-3xl p-6 lg:p-10 overflow-hidden relative group hover:border-primary/30 transition-all">
+                    
+                    {/* Content Side */}
+                    <div className={`flex-1 ${idx % 2 !== 0 ? 'lg:order-2' : ''}`}>
+                      <div className="flex items-center gap-3 mb-3">
+                        <h3 className="text-2xl md:text-3xl font-bold font-heading text-foreground">{product.title}</h3>
+                        <span className="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full bg-green-500/10 text-green-500 border border-green-500/20">
+                          {product.status}
+                        </span>
+                      </div>
+                      <p className="text-primary font-medium mb-4">{product.tagline}</p>
+                      <p className="text-muted-foreground mb-6 leading-relaxed">
+                        {product.overview}
+                      </p>
                       
-                      {/* Invisible link covering the whole card */}
-                      <Link href={`/products/${product.id}`} className="absolute inset-0 z-0" aria-label={`View ${product.title}`} />
-                      
-                      {/* Image header */}
-                      {product.imageUrl && (
-                        <div className="relative w-full h-48 bg-muted overflow-hidden z-10 pointer-events-none">
-                          <Image
-                            src={product.imageUrl}
-                            alt={product.title}
-                            fill
-                            className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
-                        </div>
-                      )}
-                      
-                      <div className="p-8 flex flex-col flex-1 relative z-10 pointer-events-none">
-                        <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-heading font-bold text-xl text-foreground group-hover:text-primary transition-colors">{product.title}</h4>
-                        </div>
-                        <p className="text-primary font-medium text-sm mb-4">{product.tagline}</p>
-                        
-                        <p className="text-muted-foreground text-sm mb-6 line-clamp-3 leading-relaxed">{product.overview}</p>
-                        
-                        {product.techStack && (
-                          <div className="flex flex-wrap gap-2 mb-6">
-                            {product.techStack.slice(0, 4).map((tech) => (
-                              <span key={tech} className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md font-medium">
-                                {tech}
-                              </span>
-                            ))}
-                            {product.techStack.length > 4 && (
-                              <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md font-medium">
-                                +{product.techStack.length - 4}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                        
-                        <div className="mt-auto flex items-center justify-between text-sm font-medium">
-                          <span className="text-primary flex items-center">
-                            View Details <ArrowRight className="ml-2 w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                      {/* Tech stack tags */}
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {product.techStack?.slice(0, 6).map((tech, tIdx) => (
+                          <span key={tIdx} className="text-xs font-medium px-2.5 py-1 rounded-md bg-muted text-muted-foreground border border-border">
+                            {tech}
                           </span>
-                          
-                          {product.liveUrl && (
-                            <div className="pointer-events-auto z-20">
-                              <a 
-                                href={product.liveUrl} 
-                                target="_blank" 
-                                rel="noreferrer" 
-                                className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground rounded-full transition-colors"
-                              >
-                                Live Demo <ExternalLink className="w-3.5 h-3.5" />
-                              </a>
-                            </div>
-                          )}
-                        </div>
+                        ))}
+                        {(product.techStack?.length || 0) > 6 && (
+                          <span className="text-xs font-medium px-2.5 py-1 rounded-md bg-muted text-muted-foreground border border-border">
+                            +{(product.techStack?.length || 0) - 6} more
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Features */}
+                      <ul className="space-y-2 mb-6">
+                        {product.features?.slice(0, 3).map((feat, fIdx) => (
+                          <li key={fIdx} className="flex items-start text-sm text-foreground">
+                            <CheckCircle2 className="w-4 h-4 text-primary mr-2 mt-0.5 shrink-0" />
+                            <span><strong>{feat.title}</strong> — {feat.description}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      
+                      <div className="flex gap-3">
+                        {product.liveUrl && (
+                          <a
+                            href={product.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center h-11 px-6 rounded-full bg-primary text-white font-semibold text-sm hover:bg-primary/90 transition-all shadow-sm"
+                          >
+                            View Live <ArrowUpRight className="ml-1.5 w-4 h-4" />
+                          </a>
+                        )}
+                        <Link
+                          href="/contact"
+                          className="inline-flex items-center h-11 px-6 rounded-full bg-card border border-border text-foreground font-medium text-sm hover:bg-muted transition-all"
+                        >
+                          Get Custom Version <ArrowRight className="ml-1.5 w-4 h-4" />
+                        </Link>
                       </div>
                     </div>
-                  </StaggerItem>
-                ))}
-              </StaggerContainer>
+                    
+                    {/* Visual Side */}
+                    <div className="flex-1 w-full lg:w-auto rounded-2xl border border-border relative overflow-hidden">
+                      <img 
+                        src={product.imageUrl || "/placeholder.jpg"} 
+                        alt={product.title} 
+                        className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105" 
+                      />
+                    </div>
+                    
+                  </div>
+                </FadeIn>
+              ))}
             </div>
-            
           </Container>
-        </section>
+        </Section>
+
+        {/* CTA */}
+        <Section className="py-20 bg-muted/30 dark:bg-[#060612]">
+          <Container className="text-center">
+            <FadeIn>
+              <h2 className="text-3xl md:text-4xl font-bold font-heading mb-6">
+                Need a Custom AI Solution?
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-8">
+                Every product above can be customized for your business. Or we can build something entirely new.
+              </p>
+              <Button size="lg" asChild className="rounded-full h-14 px-10">
+                <Link href="/contact">
+                  Start Your Project <ArrowRight className="ml-2 w-4 h-4" />
+                </Link>
+              </Button>
+            </FadeIn>
+          </Container>
+        </Section>
       </main>
       <Footer />
     </>

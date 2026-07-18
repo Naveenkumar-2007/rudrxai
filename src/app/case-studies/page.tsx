@@ -21,7 +21,7 @@ export default function CaseStudiesIndex() {
               <SectionHeading 
                 badge="Success Stories"
                 title="Real Business Outcomes. Powered by AI."
-                subtitle="Explore how enterprise leaders and governments are leveraging Rudrx AI to orchestrate intelligent workflows, automate operations, and achieve measurable ROI."
+                subtitle="Explore how enterprise leaders and governments are leveraging RudrxAI to orchestrate intelligent workflows, automate operations, and achieve measurable ROI."
                 centered
               />
             </FadeIn>
@@ -71,7 +71,7 @@ export default function CaseStudiesIndex() {
               <div className="text-center mb-16">
                 <h2 className="text-3xl font-bold font-heading text-foreground mb-4">Discover the Impact</h2>
                 <p className="text-muted-foreground max-w-2xl mx-auto">
-                  Filter by industry to see exactly how Rudrx AI is transforming operations.
+                  Filter by industry to see exactly how RudrxAI is transforming operations.
                 </p>
               </div>
             </FadeIn>

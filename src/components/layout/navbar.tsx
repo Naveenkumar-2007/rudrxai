@@ -10,11 +10,13 @@ import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { Menu, X } from "lucide-react"
 
 const navLinks = [
-  { href: "/products", label: "Products" },
-  { href: "/solutions", label: "Solutions" },
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
   { href: "/industries", label: "Industries" },
+  { href: "/products", label: "Products" },
+  { href: "/portfolio", label: "Portfolio" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/engagement", label: "Engagement" },
+  { href: "/contact", label: "Contact" },
 ]
 
 export function Navbar() {
@@ -29,7 +31,6 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Close mobile menu on route change
   React.useEffect(() => {
     if (isMobileOpen) {
       document.body.style.overflow = "hidden"
@@ -71,8 +72,8 @@ export function Navbar() {
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center gap-3">
               <ThemeToggle />
-              <Link href="/discovery">
-                <Button>Book Discovery</Button>
+              <Link href="/contact">
+                <Button>Get a Quote</Button>
               </Link>
             </div>
 
@@ -107,8 +108,8 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="border-t border-border my-4" />
-              <Link href="/discovery" onClick={() => setIsMobileOpen(false)}>
-                <Button className="w-full mt-2" size="lg">Book Discovery</Button>
+              <Link href="/contact" onClick={() => setIsMobileOpen(false)}>
+                <Button className="w-full mt-2" size="lg">Get a Quote</Button>
               </Link>
             </nav>
           </Container>

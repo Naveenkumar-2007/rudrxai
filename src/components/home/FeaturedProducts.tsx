@@ -5,7 +5,6 @@ import { Section } from "@/components/layout/section"
 import { SectionHeading } from "@/components/ui/section-heading"
 import { FadeIn } from "@/components/effects/fade-in"
 import { ArrowRight, CheckCircle2 } from "lucide-react"
-import Link from "next/link"
 
 import { products } from "@/data/products"
 
@@ -37,7 +36,7 @@ export function FeaturedProducts() {
                   </p>
                   
                   <ul className="space-y-3 mb-8">
-                    {product.techStack.slice(0, 5).map((tech, fIdx) => (
+                    {product.techStack?.slice(0, 5).map((tech, fIdx) => (
                       <li key={fIdx} className="flex items-center text-foreground">
                         <CheckCircle2 className="w-5 h-5 text-primary mr-3" />
                         {tech}

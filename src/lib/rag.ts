@@ -58,7 +58,7 @@ export function retrieveRelevantKnowledge(query: string, topK: number = 3): Know
 
 export function buildRAGContext(entries: KnowledgeEntry[]): string {
   if (entries.length === 0) {
-    return "No specific information found. Answer based on general knowledge about Rudrx AI as an enterprise AI company."
+    return "No specific information found. Answer based on general knowledge about RudrxAI as an enterprise AI company."
   }
 
   return entries
